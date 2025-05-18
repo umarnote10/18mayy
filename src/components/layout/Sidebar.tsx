@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from "@/lib/utils";
@@ -21,7 +20,7 @@ import {
   RotateCcw,
   Calendar,
   Clock,
-  Moon
+  Moon, Sun
 } from 'lucide-react';
 
 interface SidebarItemProps {
@@ -50,7 +49,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { currentUser, logout } = useAuth();
-  
+
   const toggleSidebar = () => setIsOpen(!isOpen);
   const closeSidebar = () => setIsOpen(false);
 
@@ -58,7 +57,7 @@ const Sidebar = () => {
   const isAdmin = currentUser?.role === 'admin';
   const isCashier = currentUser?.role === 'cashier';
   const isPharmacist = currentUser?.role === 'pharmacist';
-  
+
   return (
     <>
       {/* Mobile toggle button */}
@@ -70,7 +69,7 @@ const Sidebar = () => {
       >
         {isOpen ? <X /> : <Menu />}
       </Button>
-      
+
       {/* Sidebar */}
       <div className={cn(
         "fixed inset-y-0 left-0 z-40 w-64 bg-white border-r transform transition-transform duration-200 ease-in-out md:translate-x-0",
@@ -86,7 +85,7 @@ const Sidebar = () => {
             />
             <span className="text-xl font-bold text-pharmacy-800">WKGH</span>
           </div>
-          
+
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
             <SidebarItem 
@@ -96,7 +95,7 @@ const Sidebar = () => {
               active={location.pathname === '/dashboard'} 
               onClick={closeSidebar} 
             />
-            
+
             {/* Sales (visible to admin and cashier) */}
             {(isAdmin || isCashier) && (
               <SidebarItem 
@@ -107,7 +106,7 @@ const Sidebar = () => {
                 onClick={closeSidebar} 
               />
             )}
-            
+
             {/* Inventory (visible to all) */}
             <SidebarItem 
               icon={Package} 
@@ -116,7 +115,7 @@ const Sidebar = () => {
               active={location.pathname.startsWith('/inventory')} 
               onClick={closeSidebar} 
             />
-            
+
             {/* Customers (visible to admin and cashier) */}
             {(isAdmin || isCashier) && (
               <SidebarItem 
@@ -127,7 +126,7 @@ const Sidebar = () => {
                 onClick={closeSidebar} 
               />
             )}
-            
+
             {/* Suppliers and Purchases (visible to admin and pharmacist) */}
             {(isAdmin || isPharmacist) && (
               <>
@@ -138,7 +137,7 @@ const Sidebar = () => {
                   active={location.pathname.startsWith('/suppliers')} 
                   onClick={closeSidebar} 
                 />
-                
+
                 <SidebarItem 
                   icon={Receipt} 
                   label="Purchases" 
@@ -148,7 +147,7 @@ const Sidebar = () => {
                 />
               </>
             )}
-            
+
             {/* Returns (visible to admin, cashier and pharmacist) */}
             <SidebarItem 
               icon={RotateCcw} 
@@ -168,7 +167,7 @@ const Sidebar = () => {
                 onClick={closeSidebar} 
               />
             )}
-            
+
             {/* Staff (visible to admin) */}
             {isAdmin && (
               <SidebarItem 
@@ -190,7 +189,7 @@ const Sidebar = () => {
                 onClick={closeSidebar} 
               />
             )}
-            
+
             {/* Reports (visible to admin) */}
             {isAdmin && (
               <SidebarItem 
@@ -201,7 +200,7 @@ const Sidebar = () => {
                 onClick={closeSidebar} 
               />
             )}
-            
+
             {/* Settings (visible to admin) */}
             {isAdmin && (
               <SidebarItem 
@@ -213,7 +212,7 @@ const Sidebar = () => {
               />
             )}
           </nav>
-          
+
           {/* Theme Toggle */}
           <div className="px-4 py-2">
             <Button

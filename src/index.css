@@ -7,20 +7,50 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    
+    --sidebar: 0 0% 98%;
+    --sidebar-foreground: 222.2 84% 4.9%;
   }
  
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+    
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --sidebar: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
   }
 }
- 
+
 body {
+  @apply bg-background text-foreground min-h-screen;
+}
+
+.layout-container {
+  @apply min-h-screen bg-background text-foreground;
+}
+
+.sidebar {
+  @apply bg-sidebar text-sidebar-foreground border-r border-border;
+}
+
+.main-content {
   @apply bg-background text-foreground;
 }
 
-.dark body {
-  @apply bg-background text-foreground;
+.card {
+  @apply bg-card text-card-foreground border-border;
 }
 
 @layer base {

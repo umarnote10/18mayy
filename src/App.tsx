@@ -54,6 +54,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <div className="layout-container">
             {/* Tempo routes - only included in development */}
             {import.meta.env.VITE_TEMPO && <TempoRoutes />}
 
@@ -99,6 +100,7 @@ const App = () => {
               {/* Catch-all Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            </div>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
