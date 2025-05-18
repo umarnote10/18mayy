@@ -1,0 +1,48 @@
+User profile found: 
+Object {email: "admin@admin.com", id: "YpAjXjK3ErbjTfR8cjmn5ZKDtgs1", joinDate: "2025-05-10T20:52:37.136Z", name: "Admin User", role: "admin", …}
+ProtectedRoute: User authenticated with correct role, rendering protected content
+formatCurrency is not defined
+at Dashboard (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/src/pages/Dashboard.tsx:176:63)
+at renderWithHooks (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:11548:26)
+at mountIndeterminateComponent (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:14926:21)
+at beginWork (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:15914:22)
+at HTMLUnknownElement.callCallback2 (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:3674:22)
+at Object.invokeGuardedCallbackDev (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:3699:24)
+at invokeGuardedCallback (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:3733:39)
+at beginWork$1 (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19765:15)
+at performUnitOfWork (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19198:20)
+at workLoopSync (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19137:13)
+ProtectedRoute: User authenticated with correct role, rendering protected content
+formatCurrency is not defined
+The above error occurred in the <Dashboard> component:
+
+    at Dashboard (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/src/pages/Dashboard.tsx:19:29)
+    at RenderedRoute (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=c2847682:4069:5)
+    at Outlet (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=c2847682:4444:26)
+    at main
+    at div
+    at div
+    at ProtectedRoute (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/src/components/layout/ProtectedRoute.tsx:15:27)
+    at RenderedRoute (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=c2847682:4069:5)
+    at Routes (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=c2847682:4508:5)
+    at Router (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=c2847682:4451:15)
+    at BrowserRouter (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/react-router-dom.js?v=c2847682:5196:5)
+    at Provider (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-XSD2Y4RK.js?v=c2847682:38:15)
+    at TooltipProvider (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=c2847682:61:5)
+    at AuthProvider (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/src/context/AuthContext.tsx:27:32)
+    at QueryClientProvider (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/@tanstack_react-query.js?v=c2847682:2794:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+formatCurrency is not defined
+at Dashboard (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/src/pages/Dashboard.tsx:176:63)
+at renderWithHooks (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:11548:26)
+at mountIndeterminateComponent (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:14926:21)
+at beginWork (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:15914:22)
+at beginWork$1 (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19753:22)
+at performUnitOfWork (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19198:20)
+at workLoopSync (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19137:13)
+at renderRootSync (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:19116:15)
+at recoverFromConcurrentError (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:18736:28)
+at performConcurrentWorkOnRoot (https://ea91b68f-c6de-4e6d-ac4c-92682843d482-00-3br2fo34ugzhg.sisko.replit.dev/node_modules/.vite/deps/chunk-W6L2VRDA.js?v=c2847682:18684:30)
