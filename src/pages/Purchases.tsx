@@ -597,7 +597,7 @@ const PurchaseHistory = () => {
                     </TableCell>
                     <TableCell>{purchase.supplier}</TableCell>
                     <TableCell>{purchase.items}</TableCell>
-                    <TableCell>${purchase.total.toFixed(2)}</TableCell>
+                    <TableCell>{formatCurrency(purchase.total)}</TableCell>
                     <TableCell>
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${getStatusBadgeClass(purchase.status)}`}

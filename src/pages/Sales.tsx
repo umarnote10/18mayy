@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -41,6 +40,11 @@ interface CompletedSale {
   paymentMethod: string;
 }
 
+// Utility function to format currency as Rs
+const formatCurrency = (amount: number) => {
+  return `Rs ${amount.toFixed(2)}`;
+};
+
 const NewSale = () => {
   const { toast } = useToast();
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -49,7 +53,7 @@ const NewSale = () => {
   const [salesHistory, setSalesHistory] = useState<CompletedSale[]>([]);
   const [showDrafts, setShowDrafts] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cash');
-  
+
   // Load drafts and sales history from localStorage when component mounts
   useEffect(() => {
     const savedDrafts = localStorage.getItem('saleDrafts');
@@ -60,7 +64,7 @@ const NewSale = () => {
         console.error('Error parsing drafts:', error);
       }
     }
-    
+
     const savedSales = localStorage.getItem('salesHistory');
     if (savedSales) {
       try {
@@ -75,7 +79,7 @@ const NewSale = () => {
   useEffect(() => {
     localStorage.setItem('saleDrafts', JSON.stringify(drafts));
   }, [drafts]);
-  
+
   // Save sales history to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('salesHistory', JSON.stringify(salesHistory));
@@ -173,7 +177,7 @@ const NewSale = () => {
       });
       return;
     }
-    
+
     // Create a new completed sale
     const newSale: CompletedSale = {
       id: `sale-${Date.now()}`,
@@ -185,18 +189,18 @@ const NewSale = () => {
       timestamp: new Date(),
       paymentMethod: paymentMethod
     };
-    
+
     // Add to sales history
     setSalesHistory(prev => [newSale, ...prev]);
-    
+
     // Print receipt automatically
     handlePrintReceipt(newSale);
-    
+
     toast({
       title: "Sale completed",
-      description: `Total amount: PKR ${total.toFixed(2)}`
+      description: `Total amount: Rs ${total.toFixed(2)}`
     });
-    
+
     setCart([]);
     setSelectedCustomer('');
     setShowDrafts(false);
@@ -231,20 +235,20 @@ const NewSale = () => {
           ${sale.cart.map(item => `
             <div class="item">
               <span>${item.name} x${item.quantity}</span>
-              <span>PKR ${item.total.toFixed(2)}</span>
+              <span>${formatCurrency(item.total)}</span>
             </div>
           `).join('')}
           <div class="item">
             <span>Subtotal:</span>
-            <span>PKR ${sale.subtotal.toFixed(2)}</span>
+            <span>${formatCurrency(sale.subtotal)}</span>
           </div>
           <div class="item">
             <span>Tax (5%):</span>
-            <span>PKR ${sale.tax.toFixed(2)}</span>
+            <span>${formatCurrency(sale.tax)}</span>
           </div>
           <div class="total">
             <span>Total:</span>
-            <span>PKR ${sale.total.toFixed(2)}</span>
+            <span>${formatCurrency(sale.total)}</span>
           </div>
           <div class="footer">
             <p>Thank you for choosing MedPulse Pharmacy!</p>
@@ -252,7 +256,7 @@ const NewSale = () => {
         </body>
       </html>
     `;
-    
+
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(printContent);
@@ -286,12 +290,12 @@ const NewSale = () => {
     };
 
     setDrafts([...drafts, draftSale]);
-    
+
     toast({
       title: "Sale saved as draft",
       description: `Sale with ${cart.length} items has been saved as draft`
     });
-    
+
     // Clear cart after saving as draft
     setCart([]);
     setSelectedCustomer('');
@@ -307,7 +311,7 @@ const NewSale = () => {
     setCart([...draft.cart]);
     setSelectedCustomer(draft.customer);
     setShowDrafts(false);
-    
+
     toast({
       title: "Draft loaded",
       description: `Draft sale with ${draft.cart.length} items has been loaded.`
@@ -317,7 +321,7 @@ const NewSale = () => {
   // Delete draft sale
   const deleteDraft = (draftId: string) => {
     setDrafts(drafts.filter(draft => draft.id !== draftId));
-    
+
     toast({
       title: "Draft deleted",
       description: "Draft sale has been deleted."
@@ -334,7 +338,7 @@ const NewSale = () => {
           </Button>
         </div>
       </div>
-      
+
       {showDrafts ? (
         <Card>
           <CardHeader>
@@ -353,7 +357,7 @@ const NewSale = () => {
                     </div>
                     <div className="flex justify-between mb-2">
                       <span>Customer: {draft.customer || 'Walk-in'}</span>
-                      <span>Total: PKR {draft.total.toFixed(2)}</span>
+                      <span>Total: {formatCurrency(draft.total)}</span>
                     </div>
                     <div className="flex gap-2 mt-2">
                       <Button size="sm" onClick={() => loadDraft(draft)}>Load</Button>
@@ -378,7 +382,7 @@ const NewSale = () => {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader>
               <CardTitle>Checkout</CardTitle>
@@ -392,7 +396,7 @@ const NewSale = () => {
                 onCustomerChange={setSelectedCustomer} 
                 onCheckout={checkout}
               />
-              
+
               {/* Add Save as Draft button at the bottom */}
               <div className="mt-4">
                 <Button variant="outline" className="w-full" onClick={saveSaleDraft}>
@@ -411,7 +415,7 @@ const NewSale = () => {
 const Sales = () => {
   const [salesHistory, setSalesHistory] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState('new-sale');
-  
+
   // Load sales history from localStorage when component mounts or tab changes
   useEffect(() => {
     if (activeTab === 'history') {
@@ -425,7 +429,7 @@ const Sales = () => {
       }
     }
   }, [activeTab]);
-  
+
   // Function to handle printing receipts from the history tab
   const handlePrintFromHistory = (sale: any) => {
     // Create a printable version of the receipt
@@ -455,20 +459,20 @@ const Sales = () => {
           ${sale.cart.map((item: any) => `
             <div class="item">
               <span>${item.name} x${item.quantity}</span>
-              <span>PKR ${item.total.toFixed(2)}</span>
+              <span>${formatCurrency(item.total)}</span>
             </div>
           `).join('')}
           <div class="item">
             <span>Subtotal:</span>
-            <span>PKR ${sale.subtotal.toFixed(2)}</span>
+            <span>${formatCurrency(sale.subtotal)}</span>
           </div>
           <div class="item">
             <span>Tax (5%):</span>
-            <span>PKR ${sale.tax.toFixed(2)}</span>
+            <span>${formatCurrency(sale.tax)}</span>
           </div>
           <div class="total">
             <span>Total:</span>
-            <span>PKR ${sale.total.toFixed(2)}</span>
+            <span>${formatCurrency(sale.total)}</span>
           </div>
           <div class="footer">
             <p>Thank you for choosing MedPulse Pharmacy!</p>
@@ -476,7 +480,7 @@ const Sales = () => {
         </body>
       </html>
     `;
-    
+
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(printContent);
@@ -492,7 +496,7 @@ const Sales = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Sales Management</h1>
       </div>
-      
+
       <Tabs defaultValue="new-sale" onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="new-sale">New Sale</TabsTrigger>

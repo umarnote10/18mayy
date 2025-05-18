@@ -42,7 +42,7 @@ const Reports = () => {
     { name: 'Jun', revenue: 2390, profit: 3800 },
     { name: 'Jul', revenue: 3490, profit: 4300 },
   ];
-  
+
   const inventoryData = [
     { name: 'Antibiotics', stock: 45, value: 12000 },
     { name: 'Painkillers', stock: 32, value: 8000 },
@@ -51,7 +51,7 @@ const Reports = () => {
     { name: 'Antihistamines', stock: 16, value: 4100 },
     { name: 'Cough Syrups', stock: 29, value: 5400 },
   ];
-  
+
   const recentSalesData = [
     { id: 'INV001', date: '2023-05-01', customer: 'John Doe', amount: 125.99, status: 'Completed' },
     { id: 'INV002', date: '2023-05-02', customer: 'Jane Smith', amount: 89.75, status: 'Completed' },
@@ -59,7 +59,7 @@ const Reports = () => {
     { id: 'INV004', date: '2023-05-04', customer: 'Emily Davis', amount: 76.25, status: 'Completed' },
     { id: 'INV005', date: '2023-05-05', customer: 'Michael Wilson', amount: 198.00, status: 'Completed' },
   ];
-  
+
   const profitLossData = {
     income: {
       sales: 28950.75,
@@ -73,7 +73,7 @@ const Reports = () => {
       other: 1200.00
     }
   };
-  
+
   const userLogData = [
     { user: 'Admin', login: '2023-05-01 08:00', logout: '2023-05-01 17:00', hours: 9 },
     { user: 'Cashier 1', login: '2023-05-01 08:30', logout: '2023-05-01 16:30', hours: 8 },
@@ -81,8 +81,13 @@ const Reports = () => {
     { user: 'Cashier 2', login: '2023-05-01 12:00', logout: '2023-05-01 20:00', hours: 8 },
     { user: 'Admin', login: '2023-05-02 08:15', logout: '2023-05-02 17:15', hours: 9 },
   ];
-  
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+
+    // Utility function to format currency as "Rs"
+    const formatCurrency = (amount: number) => {
+      return `Rs ${amount.toFixed(2)}`;
+    };
 
   const renderDateRangePicker = () => (
     <div className="flex items-center space-x-2 mb-4">
@@ -120,7 +125,7 @@ const Reports = () => {
           />
         </PopoverContent>
       </Popover>
-      
+
       <Select value={reportPeriod} onValueChange={setReportPeriod}>
         <SelectTrigger className="w-[150px]">
           <SelectValue placeholder="Select period" />
@@ -132,13 +137,13 @@ const Reports = () => {
           <SelectItem value="year">Yearly</SelectItem>
         </SelectContent>
       </Select>
-      
+
       <Button variant="outline" size="icon">
         <Download className="h-4 w-4" />
       </Button>
     </div>
   );
-  
+
   const renderSalesReports = () => (
     <div className="space-y-6">
       <Card>
@@ -153,11 +158,7 @@ const Reports = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip 
-                formatter={(value) => {
-                  return typeof value === 'number' 
-                    ? `$${value.toFixed(2)}` 
-                    : value;
-                }}
+                formatter={(value) => formatCurrency(Number(value))}
               />
               <Legend />
               <Bar dataKey="revenue" fill="#8884d8" name="Revenue" />
@@ -188,7 +189,7 @@ const Reports = () => {
                   <TableCell className="font-medium">{sale.id}</TableCell>
                   <TableCell>{sale.date}</TableCell>
                   <TableCell>{sale.customer}</TableCell>
-                  <TableCell className="text-right">${sale.amount.toFixed(2)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(sale.amount)}</TableCell>
                   <TableCell>{sale.status}</TableCell>
                 </TableRow>
               ))}
@@ -198,7 +199,7 @@ const Reports = () => {
       </Card>
     </div>
   );
-  
+
   const renderInventoryReports = () => (
     <div className="space-y-6">
       <Card>
@@ -226,7 +227,7 @@ const Reports = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => `$${Number(value).toFixed(2)}`} />
+                  <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -239,7 +240,7 @@ const Reports = () => {
                   <Tooltip 
                     formatter={(value, name) => {
                       if (name === "value") {
-                        return [`$${Number(value).toFixed(2)}`, "Value"];
+                        return [`Rs ${Number(value).toFixed(2)}`, "Value"];
                       }
                       return [value, name];
                     }}
@@ -254,7 +255,7 @@ const Reports = () => {
       </Card>
     </div>
   );
-  
+
   const renderProfitLoss = () => {
     const totalIncome = profitLossData.income.sales + profitLossData.income.other;
     const totalExpenses = profitLossData.expenses.purchases + 
@@ -263,7 +264,7 @@ const Reports = () => {
                          profitLossData.expenses.salaries + 
                          profitLossData.expenses.other;
     const netProfit = totalIncome - totalExpenses;
-    
+
     return (
       <div className="space-y-6">
         <Card>
@@ -277,37 +278,37 @@ const Reports = () => {
                 <h4 className="text-lg font-medium">Income</h4>
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div>Sales Revenue</div>
-                  <div className="text-right">${profitLossData.income.sales.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.income.sales)}</div>
                   <div>Other Income</div>
-                  <div className="text-right">${profitLossData.income.other.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.income.other)}</div>
                   <div className="font-medium">Total Income</div>
-                  <div className="text-right font-medium">${totalIncome.toFixed(2)}</div>
+                  <div className="text-right font-medium">{formatCurrency(totalIncome)}</div>
                 </div>
               </div>
-              
+
               <div>
                 <h4 className="text-lg font-medium">Expenses</h4>
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   <div>Purchases</div>
-                  <div className="text-right">${profitLossData.expenses.purchases.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.expenses.purchases)}</div>
                   <div>Rent</div>
-                  <div className="text-right">${profitLossData.expenses.rent.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.expenses.rent)}</div>
                   <div>Utilities</div>
-                  <div className="text-right">${profitLossData.expenses.utilities.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.expenses.utilities)}</div>
                   <div>Salaries</div>
-                  <div className="text-right">${profitLossData.expenses.salaries.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.expenses.salaries)}</div>
                   <div>Other Expenses</div>
-                  <div className="text-right">${profitLossData.expenses.other.toFixed(2)}</div>
+                  <div className="text-right">{formatCurrency(profitLossData.expenses.other)}</div>
                   <div className="font-medium">Total Expenses</div>
-                  <div className="text-right font-medium">${totalExpenses.toFixed(2)}</div>
+                  <div className="text-right font-medium">{formatCurrency(totalExpenses)}</div>
                 </div>
               </div>
-              
+
               <div className="pt-2 border-t">
                 <div className="grid grid-cols-2 gap-2">
                   <div className="text-lg font-semibold">Net Profit</div>
                   <div className={`text-right text-lg font-semibold ${netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                    ${netProfit.toFixed(2)}
+                    {formatCurrency(netProfit)}
                   </div>
                 </div>
               </div>
@@ -317,7 +318,7 @@ const Reports = () => {
       </div>
     );
   };
-  
+
   const renderUserTimeLog = () => (
     <div className="space-y-6">
       <Card>
@@ -350,7 +351,7 @@ const Reports = () => {
       </Card>
     </div>
   );
-  
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
@@ -361,9 +362,9 @@ const Reports = () => {
           </p>
         </div>
       </div>
-      
+
       {renderDateRangePicker()}
-      
+
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-8">
           <TabsTrigger value="sales">Sales Reports</TabsTrigger>

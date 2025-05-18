@@ -58,7 +58,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold">${totalSales.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatCurrency(totalSales)}</p>
                 <p className="text-xs text-green-600">+2.5% from last month</p>
               </div>
               <div className="h-12 w-12 rounded-full bg-pharmacy-100 flex items-center justify-center">

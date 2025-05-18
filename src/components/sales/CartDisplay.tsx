@@ -46,7 +46,7 @@ const CartDisplay = ({ cart, onUpdateQuantity, onRemoveItem }: CartDisplayProps)
               {cart.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>
-                  <TableCell>${item.price.toFixed(2)}</TableCell>
+                  <TableCell>{formatCurrency(item.price)}</TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
                       <Button 

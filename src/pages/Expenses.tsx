@@ -353,7 +353,7 @@ const Expenses = () => {
                     <TableCell>{expense.category}</TableCell>
                     <TableCell>{expense.description}</TableCell>
                     <TableCell>{expense.paymentMethod}</TableCell>
-                    <TableCell>PKR {expense.amount.toFixed(2)}</TableCell>
+                    <TableCell>{formatCurrency(expense.amount)}</TableCell>
                     <TableCell className="text-right space-x-2">
                       <Button 
                         variant="ghost" 

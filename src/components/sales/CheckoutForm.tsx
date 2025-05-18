@@ -64,7 +64,7 @@ const CheckoutForm = ({
           </div>
           <div class="item">
             <span>Subtotal:</span>
-            <span>PKR ${subtotal.toFixed(2)}</span>
+            <span>{formatCurrency(subtotal)}</span>
           </div>
           <div class="item">
             <span>Tax (${taxRate}%):</span>
