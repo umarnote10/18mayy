@@ -20,7 +20,8 @@ import {
   Wallet,
   RotateCcw,
   Calendar,
-  Clock
+  Clock,
+  Moon
 } from 'lucide-react';
 
 interface SidebarItemProps {
