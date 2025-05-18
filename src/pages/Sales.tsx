@@ -163,7 +163,7 @@ const NewSale = () => {
   };
 
   const subtotal = calculateSubtotal();
-  const taxRate = 0.05;
+  const taxRate = 0;
   const tax = subtotal * taxRate;
   const total = subtotal + tax;
 

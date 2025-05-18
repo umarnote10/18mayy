@@ -29,7 +29,7 @@ const CheckoutForm = ({
   const {
     toast
   } = useToast();
-  const [taxRate, setTaxRate] = useState(5);
+  const [taxRate, setTaxRate] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState('cash');
 
