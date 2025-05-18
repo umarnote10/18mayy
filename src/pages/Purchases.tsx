@@ -24,119 +24,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { Search, Plus, FileText, Package, Trash } from "lucide-react";
-
-const mockPurchases = [
-  {
-    id: "po-001",
-    supplier: "PharmaCare Inc.",
-    date: "2023-06-15",
-    status: "Received",
-    total: 1245.5,
-    items: 12,
-    orderItems: [
-      {
-        id: "item-001",
-        name: "Paracetamol 500mg",
-        quantity: 50,
-        unitPrice: 5.99,
-        total: 299.5,
-      },
-      {
-        id: "item-002",
-        name: "Amoxicillin 250mg",
-        quantity: 30,
-        unitPrice: 12.5,
-        total: 375.0,
-      },
-      {
-        id: "item-003",
-        name: "Ibuprofen 400mg",
-        quantity: 40,
-        unitPrice: 7.25,
-        total: 290.0,
-      },
-      {
-        id: "item-004",
-        name: "Cetirizine 10mg",
-        quantity: 25,
-        unitPrice: 8.99,
-        total: 224.75,
-      },
-      {
-        id: "item-005",
-        name: "Vitamin D3 1000IU",
-        quantity: 20,
-        unitPrice: 2.8,
-        total: 56.0,
-      },
-    ],
-  },
-  {
-    id: "po-002",
-    supplier: "MediSource Suppliers",
-    date: "2023-06-10",
-    status: "Pending",
-    total: 876.25,
-    items: 8,
-    orderItems: [
-      {
-        id: "item-006",
-        name: "Omeprazole 20mg",
-        quantity: 35,
-        unitPrice: 10.75,
-        total: 376.25,
-      },
-      {
-        id: "item-007",
-        name: "Cough Syrup 100ml",
-        quantity: 20,
-        unitPrice: 13.25,
-        total: 265.0,
-      },
-      {
-        id: "item-008",
-        name: "Diclofenac 50mg",
-        quantity: 25,
-        unitPrice: 9.4,
-        total: 235.0,
-      },
-    ],
-  },
-  {
-    id: "po-003",
-    supplier: "Global Health Products",
-    date: "2023-06-05",
-    status: "Ordered",
-    total: 2134.75,
-    items: 15,
-    orderItems: [
-      {
-        id: "item-009",
-        name: "Insulin 10ml",
-        quantity: 15,
-        unitPrice: 65.0,
-        total: 975.0,
-      },
-      {
-        id: "item-010",
-        name: "Aspirin 75mg",
-        quantity: 100,
-        unitPrice: 6.5,
-        total: 650.0,
-      },
-      {
-        id: "item-011",
-        name: "Multivitamin Tablets",
-        quantity: 50,
-        unitPrice: 10.19,
-        total: 509.5,
-      },
-    ],
-  },
-];
+import { Search, Plus, FileText } from "lucide-react";
 
 const mockSuppliers = [
   { id: "sup1", name: "PharmaCare Inc." },
@@ -144,45 +35,60 @@ const mockSuppliers = [
   { id: "sup3", name: "Global Health Products" },
 ];
 
+interface PurchaseItem {
+  id: string;
+  name: string;
+  quantity: number;
+  costPrice: number;
+  sellingPrice: number;
+  total: number;
+}
+
+interface Purchase {
+  id: string;
+  supplier: string;
+  date: string;
+  status: string;
+  total: number;
+  items: number;
+  orderItems: PurchaseItem[];
+}
+
 const NewPurchase = () => {
-  // Get purchases from localStorage or use mock data
-  const [purchases, setPurchases] = useState(() => {
-    const storedPurchases = localStorage.getItem("purchases");
-    return storedPurchases ? JSON.parse(storedPurchases) : mockPurchases;
-  });
   const { toast } = useToast();
+  const [purchases, setPurchases] = useState<Purchase[]>([]);
   const [selectedSupplier, setSelectedSupplier] = useState("");
   const [orderDate, setOrderDate] = useState(
-    new Date().toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0]
   );
-  const [orderItems, setOrderItems] = useState<
-    Array<{
-      id: string;
-      name: string;
-      quantity: number;
-      unitPrice: number;
-      total: number;
-    }>
-  >([]);
+  const [orderItems, setOrderItems] = useState<PurchaseItem[]>([]);
   const [showAddItemDialog, setShowAddItemDialog] = useState(false);
   const [newItem, setNewItem] = useState({
     name: "",
     quantity: 1,
-    unitPrice: 0,
+    costPrice: 0,
+    sellingPrice: 0,
   });
 
+  useEffect(() => {
+    const storedPurchases = localStorage.getItem("purchases");
+    if (storedPurchases) {
+      setPurchases(JSON.parse(storedPurchases));
+    }
+  }, []);
+
   const handleAddItem = () => {
-    if (!newItem.name || newItem.quantity <= 0 || newItem.unitPrice <= 0) {
+    if (!newItem.name || newItem.quantity <= 0 || newItem.costPrice <= 0 || newItem.sellingPrice <= 0) {
       toast({
         title: "Invalid Item",
-        description: "Please provide a name, quantity and price.",
+        description: "Please fill in all fields with valid values.",
         variant: "destructive",
       });
       return;
     }
 
     const itemId = `item-${Date.now()}`;
-    const total = newItem.quantity * newItem.unitPrice;
+    const total = newItem.quantity * newItem.costPrice;
 
     setOrderItems((prev) => [
       ...prev,
@@ -190,12 +96,18 @@ const NewPurchase = () => {
         id: itemId,
         name: newItem.name,
         quantity: newItem.quantity,
-        unitPrice: newItem.unitPrice,
+        costPrice: newItem.costPrice,
+        sellingPrice: newItem.sellingPrice,
         total,
       },
     ]);
 
-    setNewItem({ name: "", quantity: 1, unitPrice: 0 });
+    setNewItem({
+      name: "",
+      quantity: 1,
+      costPrice: 0,
+      sellingPrice: 0,
+    });
     setShowAddItemDialog(false);
 
     toast({
@@ -227,11 +139,7 @@ const NewPurchase = () => {
       return;
     }
 
-    // Find supplier name
-    const supplier =
-      mockSuppliers.find((s) => s.id === selectedSupplier)?.name || "Unknown";
-
-    // Create new purchase order
+    const supplier = mockSuppliers.find((s) => s.id === selectedSupplier)?.name || "Unknown";
     const newPurchase = {
       id: `po-${String(Date.now()).slice(-6)}`,
       supplier,
@@ -239,48 +147,41 @@ const NewPurchase = () => {
       status: "Ordered",
       total: orderItems.reduce((sum, item) => sum + item.total, 0),
       items: orderItems.length,
-      orderItems: orderItems,
+      orderItems,
     };
 
-    // Update purchases list and save to localStorage
     const updatedPurchases = [...purchases, newPurchase];
     setPurchases(updatedPurchases);
     localStorage.setItem("purchases", JSON.stringify(updatedPurchases));
 
-    // Update inventory with new items
+    // Update inventory
     const storedMedicines = localStorage.getItem("medicines");
     if (storedMedicines) {
       const medicines = JSON.parse(storedMedicines);
-
-      // Add new items to inventory if they don't exist, or update stock if they do
       orderItems.forEach((item) => {
         const existingMedicine = medicines.find(
-          (med) => med.name.toLowerCase() === item.name.toLowerCase(),
+          (med: any) => med.name.toLowerCase() === item.name.toLowerCase()
         );
 
         if (existingMedicine) {
-          // Update existing medicine stock
           existingMedicine.stock += item.quantity;
+          existingMedicine.price = item.sellingPrice;
         } else {
-          // Add new medicine to inventory
           const newMedicine = {
             id: `med${String(Date.now() + Math.floor(Math.random() * 1000)).slice(-6)}`,
             name: item.name,
             category: "Imported",
             stock: item.quantity,
-            price: item.unitPrice * 1.3, // Adding markup for retail
+            price: item.sellingPrice,
             expiryDate: new Date(
-              new Date().setFullYear(new Date().getFullYear() + 2),
-            )
-              .toISOString()
-              .split("T")[0], // Default 2 years expiry
+              new Date().setFullYear(new Date().getFullYear() + 2)
+            ).toISOString().split("T")[0],
             manufacturer: supplier,
           };
           medicines.push(newMedicine);
         }
       });
 
-      // Save updated medicines to localStorage
       localStorage.setItem("medicines", JSON.stringify(medicines));
     }
 
@@ -289,7 +190,6 @@ const NewPurchase = () => {
       description: `Purchase order with ${orderItems.length} items has been created successfully.`,
     });
 
-    // Reset form
     setSelectedSupplier("");
     setOrderItems([]);
     setOrderDate(new Date().toISOString().split("T")[0]);
@@ -335,81 +235,58 @@ const NewPurchase = () => {
 
             <div className="mt-6">
               <h3 className="text-lg font-medium mb-4">Order Items</h3>
-
               <div className="border rounded-md p-4">
                 <div className="flex items-center justify-between pb-4 border-b">
                   <p className="text-sm text-gray-500">
                     Add items to your purchase order
                   </p>
-                  <Button size="sm" onClick={() => setShowAddItemDialog(true)}>
+                  <Button onClick={() => setShowAddItemDialog(true)}>
                     <Plus className="h-4 w-4 mr-2" />
                     Add Item
                   </Button>
                 </div>
 
-                {orderItems.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-8">
-                    <Package className="h-12 w-12 text-gray-300" />
-                    <h3 className="mt-2 text-lg font-medium">
-                      No items added yet
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      Click "Add Item" to add products to your order
-                    </p>
-                  </div>
-                ) : (
-                  <div className="mt-4">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left py-2">Item</th>
-                          <th className="text-right py-2">Quantity</th>
-                          <th className="text-right py-2">Unit Price</th>
-                          <th className="text-right py-2">Total</th>
-                          <th className="py-2"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {orderItems.map((item) => (
-                          <tr key={item.id} className="border-b">
-                            <td className="py-2">{item.name}</td>
-                            <td className="text-right py-2">{item.quantity}</td>
-                            <td className="text-right py-2">
-                              ${item.unitPrice.toFixed(2)}
-                            </td>
-                            <td className="text-right py-2">
-                              ${item.total.toFixed(2)}
-                            </td>
-                            <td className="text-right py-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => removeItem(item.id)}
-                              >
-                                <Trash className="h-4 w-4 text-red-500" />
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                        <tr>
-                          <td
-                            colSpan={3}
-                            className="text-right font-medium py-2"
-                          >
-                            Total:
-                          </td>
-                          <td className="text-right font-bold py-2">
-                            $
-                            {orderItems
-                              .reduce((sum, item) => sum + item.total, 0)
-                              .toFixed(2)}
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                <div className="mt-4">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Item Name</TableHead>
+                        <TableHead>Quantity</TableHead>
+                        <TableHead>Cost Price</TableHead>
+                        <TableHead>Selling Price</TableHead>
+                        <TableHead>Total</TableHead>
+                        <TableHead></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {orderItems.map((item) => (
+                        <TableRow key={item.id}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell>{item.quantity}</TableCell>
+                          <TableCell>${item.costPrice.toFixed(2)}</TableCell>
+                          <TableCell>${item.sellingPrice.toFixed(2)}</TableCell>
+                          <TableCell>${item.total.toFixed(2)}</TableCell>
+                          <TableCell>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeItem(item.id)}
+                            >
+                              Remove
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      {orderItems.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={6} className="text-center py-4">
+                            No items added yet
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </div>
 
@@ -422,11 +299,7 @@ const NewPurchase = () => {
               </Button>
             </div>
 
-            {/* Add Item Dialog */}
-            <Dialog
-              open={showAddItemDialog}
-              onOpenChange={setShowAddItemDialog}
-            >
+            <Dialog open={showAddItemDialog} onOpenChange={setShowAddItemDialog}>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Add Item</DialogTitle>
@@ -447,7 +320,6 @@ const NewPurchase = () => {
                           name: e.target.value,
                         }))
                       }
-                      required
                     />
                   </div>
 
@@ -464,26 +336,40 @@ const NewPurchase = () => {
                             quantity: parseInt(e.target.value) || 1,
                           }))
                         }
-                        required
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Unit Price</label>
+                      <label className="text-sm font-medium">Cost Price</label>
                       <Input
                         type="number"
                         step="0.01"
                         min="0"
-                        value={newItem.unitPrice}
+                        value={newItem.costPrice}
                         onChange={(e) =>
                           setNewItem((prev) => ({
                             ...prev,
-                            unitPrice: parseFloat(e.target.value) || 0,
+                            costPrice: parseFloat(e.target.value) || 0,
                           }))
                         }
-                        required
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Selling Price</label>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={newItem.sellingPrice}
+                      onChange={(e) =>
+                        setNewItem((prev) => ({
+                          ...prev,
+                          sellingPrice: parseFloat(e.target.value) || 0,
+                        }))
+                      }
+                    />
                   </div>
                 </div>
 
@@ -505,7 +391,6 @@ const NewPurchase = () => {
   );
 };
 
-// Save purchases to localStorage whenever they change
 const useSavePurchases = (purchases: any[]) => {
   useEffect(() => {
     if (purchases && purchases.length > 0) {
@@ -516,23 +401,21 @@ const useSavePurchases = (purchases: any[]) => {
 
 const PurchaseHistory = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [purchases, setPurchases] = useState(() => {
+  const [purchases, setPurchases] = useState<Purchase[]>(() => {
     const storedPurchases = localStorage.getItem("purchases");
-    return storedPurchases ? JSON.parse(storedPurchases) : mockPurchases;
+    return storedPurchases ? JSON.parse(storedPurchases) : [];
   });
 
-  // Save purchases to localStorage whenever they change
   useSavePurchases(purchases);
   const [selectedPurchase, setSelectedPurchase] = useState<
-    (typeof mockPurchases)[0] | null
+    Purchase | null
   >(null);
   const [showDetailsDialog, setShowDetailsDialog] = useState(false);
 
-  // Filter purchases based on search
   const filteredPurchases = purchases.filter(
     (purchase) =>
       purchase.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      purchase.supplier.toLowerCase().includes(searchTerm.toLowerCase()),
+      purchase.supplier.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const viewPurchaseDetails = (id: string) => {
@@ -555,6 +438,11 @@ const PurchaseHistory = () => {
         return "bg-gray-100 text-gray-800";
     }
   };
+
+  const formatCurrency = (amount: number) => {
+    return `$${amount.toFixed(2)}`;
+  };
+
 
   return (
     <div className="space-y-4">
@@ -670,7 +558,10 @@ const PurchaseHistory = () => {
                           Quantity
                         </th>
                         <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">
-                          Unit Price
+                          Cost Price
+                        </th>
+                        <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">
+                          Selling Price
                         </th>
                         <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">
                           Total
@@ -686,9 +577,12 @@ const PurchaseHistory = () => {
                               {item.quantity}
                             </td>
                             <td className="px-4 py-2 text-right">
-                              ${item.unitPrice.toFixed(2)}
+                              ${item.costPrice.toFixed(2)}
                             </td>
                             <td className="px-4 py-2 text-right">
+                              ${item.sellingPrice.toFixed(2)}
+                            </td>
+                             <td className="px-4 py-2 text-right">
                               ${item.total.toFixed(2)}
                             </td>
                           </tr>
@@ -707,7 +601,7 @@ const PurchaseHistory = () => {
                     <tfoot className="bg-gray-50">
                       <tr className="border-t">
                         <td
-                          colSpan={3}
+                          colSpan={4}
                           className="px-4 py-2 text-right font-medium"
                         >
                           Total:
