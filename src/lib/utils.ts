@@ -6,6 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const formatCurrency = (amount: number) => {
-  return `Rs ${amount.toFixed(2)}`;
+export const formatCurrency = (amount: number): string => {
+  return `Rs ${amount.toLocaleString('en-PK', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  })}`;
 };
