@@ -40,62 +40,71 @@ const TempoRoutes = () => {
   return tempoRoutes;
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          {/* Tempo routes - only included in development */}
-          {import.meta.env.VITE_TEMPO && <TempoRoutes />}
+const App = () => {
+  React.useEffect(() => {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
 
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/unauthorized" element={<UnauthorizedPage />} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            {/* Tempo routes - only included in development */}
+            {import.meta.env.VITE_TEMPO && <TempoRoutes />}
 
-            {/* Protected Routes (accessible to all authenticated users) */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/inventory" element={<Inventory />} />
-              <Route path="/returns" element={<Returns />} />
-            </Route>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-            {/* Routes requiring Admin or Cashier role */}
-            <Route element={<ProtectedRoute requiredRole="cashier" />}>
-              <Route path="/sales" element={<Sales />} />
-              <Route path="/customers" element={<Customers />} />
-            </Route>
+              {/* Protected Routes (accessible to all authenticated users) */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/inventory" element={<Inventory />} />
+                <Route path="/returns" element={<Returns />} />
+              </Route>
 
-            {/* Routes requiring Admin or Pharmacist role */}
-            <Route element={<ProtectedRoute requiredRole="pharmacist" />}>
-              <Route path="/suppliers" element={<Suppliers />} />
-              <Route path="/purchases" element={<Purchases />} />
-            </Route>
+              {/* Routes requiring Admin or Cashier role */}
+              <Route element={<ProtectedRoute requiredRole="cashier" />}>
+                <Route path="/sales" element={<Sales />} />
+                <Route path="/customers" element={<Customers />} />
+              </Route>
 
-            {/* Routes requiring Admin role */}
-            <Route element={<ProtectedRoute requiredRole="admin" />}>
-              <Route path="/reports" element={<Reports />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/shifts" element={<Shifts />} />
-            </Route>
+              {/* Routes requiring Admin or Pharmacist role */}
+              <Route element={<ProtectedRoute requiredRole="pharmacist" />}>
+                <Route path="/suppliers" element={<Suppliers />} />
+                <Route path="/purchases" element={<Purchases />} />
+              </Route>
 
-            {/* Allow Tempo routes before catch-all */}
-            {import.meta.env.VITE_TEMPO && <Route path="/tempobook/*" />}
+              {/* Routes requiring Admin role */}
+              <Route element={<ProtectedRoute requiredRole="admin" />}>
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/expenses" element={<Expenses />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/shifts" element={<Shifts />} />
+              </Route>
 
-            {/* Redirect root to dashboard */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              {/* Allow Tempo routes before catch-all */}
+              {import.meta.env.VITE_TEMPO && <Route path="/tempobook/*" />}
 
-            {/* Catch-all Route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+              {/* Redirect root to dashboard */}
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+              {/* Catch-all Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
