@@ -72,7 +72,7 @@ export const InventoryTable = ({
                       {medicine.stock}
                     </span>
                   </TableCell>
-                  <TableCell>PKR {medicine.price.toFixed(2)}</TableCell>
+                  <TableCell>Rs {medicine.price.toFixed(2)}</TableCell>
                   <TableCell>
                     {new Date(medicine.expiryDate).toLocaleDateString()}
                   </TableCell>

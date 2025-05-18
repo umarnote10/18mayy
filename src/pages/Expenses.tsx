@@ -287,17 +287,17 @@ const Expenses = () => {
           <CardContent className="space-y-6">
             <div>
               <h3 className="text-sm font-medium text-gray-500">Total Expenses (Filtered)</h3>
-              <div className="text-2xl font-bold">PKR {totalExpenses.toFixed(2)}</div>
+              <div className="text-2xl font-bold">Rs {totalExpenses.toFixed(2)}</div>
             </div>
             
             <div>
               <h3 className="text-sm font-medium text-gray-500">This Month</h3>
-              <div className="text-2xl font-bold">PKR 1,733.60</div>
+              <div className="text-2xl font-bold">Rs 1,733.60</div>
             </div>
             
             <div>
               <h3 className="text-sm font-medium text-gray-500">Year to Date</h3>
-              <div className="text-2xl font-bold">PKR 10,886.40</div>
+              <div className="text-2xl font-bold">Rs 10,886.40</div>
             </div>
           </CardContent>
         </Card>

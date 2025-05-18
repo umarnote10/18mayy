@@ -91,7 +91,7 @@ const ProductList = ({ onAddToCart }: ProductListProps) => {
               {searchResults.map((medicine) => (
                 <TableRow key={medicine.id}>
                   <TableCell>{medicine.name}</TableCell>
-                  <TableCell>${medicine.price.toFixed(2)}</TableCell>
+                  <TableCell>Rs {medicine.price.toFixed(2)}</TableCell>
                   <TableCell
                     className={
                       medicine.stock <= 10 ? "text-red-500 font-medium" : ""
