@@ -213,16 +213,36 @@ const Sidebar = () => {
             )}
           </nav>
           
+          {/* Theme Toggle */}
+          <div className="px-4 py-2">
+            <Button
+              variant="outline"
+              className="w-full justify-start"
+              onClick={() => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+              }}
+            >
+              <Moon className="h-4 w-4 mr-2" />
+              Toggle Theme
+            </Button>
+          </div>
+
           {/* User section */}
           <div className="p-4 border-t">
-            <div className="flex items-center mb-4 gap-3">
-              <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                {currentUser?.name.charAt(0)}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                  {currentUser?.name.charAt(0)}
+                </div>
+                <div>
+                  <div className="text-sm font-medium">{currentUser?.name}</div>
+                  <div className="text-xs text-gray-500 capitalize">{currentUser?.role}</div>
+                </div>
               </div>
-              <div>
-                <div className="text-sm font-medium">{currentUser?.name}</div>
-                <div className="text-xs text-gray-500 capitalize">{currentUser?.role}</div>
-              </div>
+              <Link to="/settings" className="text-gray-500 hover:text-gray-900">
+                <Settings className="h-4 w-4" />
+              </Link>
             </div>
             <Button 
               variant="outline" 

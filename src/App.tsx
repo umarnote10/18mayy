@@ -44,9 +44,7 @@ const TempoRoutes = () => {
 const App = () => {
   React.useEffect(() => {
     const theme = localStorage.getItem('theme') || 'light';
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, []);
 
   return (
