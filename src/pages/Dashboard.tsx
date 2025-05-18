@@ -186,7 +186,7 @@ const Dashboard = () => {
                 <Line 
                   type="monotone" 
                   dataKey="sales" 
-                  name="Sales ($)" 
+                  name="Sales (Rs)" 
                   stroke="#0891b2" 
                   strokeWidth={2} 
                   dot={{ r: 4 }} 
@@ -212,7 +212,7 @@ const Dashboard = () => {
                   <Legend />
                   <Bar 
                     dataKey="sales" 
-                    name="Sales ($)" 
+                    name="Sales (Rs)" 
                     fill="#0891b2" 
                     radius={[4, 4, 0, 0]} 
                   />

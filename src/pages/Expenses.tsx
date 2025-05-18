@@ -272,7 +272,7 @@ const Expenses = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={(value) => [`PKR ${value}`, 'Amount']} />
+                  <Tooltip formatter={(value) => [`Rs ${value}`, 'Amount']} />
                   <Bar dataKey="amount" fill="#4f46e5" />
                 </BarChart>
               </ResponsiveContainer>

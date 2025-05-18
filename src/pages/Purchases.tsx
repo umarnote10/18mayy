@@ -440,7 +440,7 @@ const PurchaseHistory = () => {
   };
 
   const formatCurrency = (amount: number) => {
-    return `$${amount.toFixed(2)}`;
+    return `Rs ${amount.toFixed(2)}`;
   };
 
 
