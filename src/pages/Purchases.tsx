@@ -263,9 +263,9 @@ const NewPurchase = () => {
                         <TableRow key={item.id}>
                           <TableCell>{item.name}</TableCell>
                           <TableCell>{item.quantity}</TableCell>
-                          <TableCell>${item.costPrice.toFixed(2)}</TableCell>
-                          <TableCell>${item.sellingPrice.toFixed(2)}</TableCell>
-                          <TableCell>${item.total.toFixed(2)}</TableCell>
+                          <TableCell>Rs {item.costPrice.toFixed(2)}</TableCell>
+                          <TableCell>Rs {item.sellingPrice.toFixed(2)}</TableCell>
+                          <TableCell>Rs {item.total.toFixed(2)}</TableCell>
                           <TableCell>
                             <Button
                               variant="ghost"

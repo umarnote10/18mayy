@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -110,14 +109,14 @@ const CustomerReturnTab = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddDialog, setShowAddDialog] = useState(false);
-  
+
   // Filter returns based on search
   const filteredReturns = customerReturns.filter(ret => 
     ret.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ret.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ret.items.some(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-  
+
   const handleAddReturn = () => {
     setShowAddDialog(false);
     toast({
@@ -125,7 +124,7 @@ const CustomerReturnTab = () => {
       description: "The customer return has been successfully processed.",
     });
   };
-  
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -144,7 +143,7 @@ const CustomerReturnTab = () => {
           />
         </div>
       </div>
-      
+
       <Card>
         <CardHeader>
           <CardTitle>Customer Returns</CardTitle>
@@ -170,7 +169,7 @@ const CustomerReturnTab = () => {
                     <TableCell>{new Date(ret.date).toLocaleDateString()}</TableCell>
                     <TableCell>{ret.customer}</TableCell>
                     <TableCell>{ret.reason}</TableCell>
-                    <TableCell>${ret.amount.toFixed(2)}</TableCell>
+                    <TableCell>Rs {ret.amount.toFixed(2)}</TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded-full text-xs ${
                         ret.status === 'Processed' 
@@ -190,7 +189,7 @@ const CustomerReturnTab = () => {
               </TableBody>
             </Table>
           </div>
-          
+
           {filteredReturns.length === 0 && (
             <div className="flex flex-col items-center justify-center py-8">
               <RotateCcw className="h-12 w-12 text-gray-300" />
@@ -200,7 +199,7 @@ const CustomerReturnTab = () => {
           )}
         </CardContent>
       </Card>
-      
+
       {/* Add Customer Return Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
         <DialogContent className="max-w-3xl">
@@ -210,7 +209,7 @@ const CustomerReturnTab = () => {
               Enter the details of the customer return
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-6 py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -227,13 +226,13 @@ const CustomerReturnTab = () => {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Date</label>
                 <Input type="date" defaultValue={new Date().toISOString().slice(0, 10)} />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-medium">Reason for Return</label>
               <Select>
@@ -250,7 +249,7 @@ const CustomerReturnTab = () => {
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-base font-medium">Return Items</h3>
@@ -259,7 +258,7 @@ const CustomerReturnTab = () => {
                   Add Item
                 </Button>
               </div>
-              
+
               <div className="border rounded-md overflow-hidden">
                 <Table>
                   <TableHeader>
@@ -281,18 +280,18 @@ const CustomerReturnTab = () => {
                 </Table>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-medium">Additional Notes</label>
               <Input placeholder="Any additional information about the return" />
             </div>
-            
+
             <div className="flex items-center space-x-2 mt-2">
               <input type="checkbox" id="refund" className="rounded border-gray-300 text-indigo-600" />
               <label htmlFor="refund" className="text-sm">Process refund for this return</label>
             </div>
           </div>
-          
+
           <div className="flex justify-end space-x-4">
             <Button variant="outline" onClick={() => setShowAddDialog(false)}>Cancel</Button>
             <Button onClick={handleAddReturn}>Process Return</Button>
@@ -307,14 +306,14 @@ const SupplierReturnTab = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddDialog, setShowAddDialog] = useState(false);
-  
+
   // Filter returns based on search
   const filteredReturns = supplierReturns.filter(ret => 
     ret.supplier.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ret.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     ret.items.some(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
-  
+
   const handleAddReturn = () => {
     setShowAddDialog(false);
     toast({
@@ -322,7 +321,7 @@ const SupplierReturnTab = () => {
       description: "The supplier return has been successfully created.",
     });
   };
-  
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -341,7 +340,7 @@ const SupplierReturnTab = () => {
           />
         </div>
       </div>
-      
+
       <Card>
         <CardHeader>
           <CardTitle>Supplier Returns</CardTitle>
@@ -367,7 +366,7 @@ const SupplierReturnTab = () => {
                     <TableCell>{new Date(ret.date).toLocaleDateString()}</TableCell>
                     <TableCell>{ret.supplier}</TableCell>
                     <TableCell>{ret.reason}</TableCell>
-                    <TableCell>${ret.amount.toFixed(2)}</TableCell>
+                    <TableCell>Rs {ret.amount.toFixed(2)}</TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded-full text-xs ${
                         ret.status === 'Processed' 
@@ -389,7 +388,7 @@ const SupplierReturnTab = () => {
               </TableBody>
             </Table>
           </div>
-          
+
           {filteredReturns.length === 0 && (
             <div className="flex flex-col items-center justify-center py-8">
               <Truck className="h-12 w-12 text-gray-300" />
@@ -399,7 +398,7 @@ const SupplierReturnTab = () => {
           )}
         </CardContent>
       </Card>
-      
+
       {/* Add Supplier Return Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
         <DialogContent className="max-w-3xl">
@@ -409,7 +408,7 @@ const SupplierReturnTab = () => {
               Enter the details of items to return to supplier
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="grid gap-6 py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -425,13 +424,13 @@ const SupplierReturnTab = () => {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Date</label>
                 <Input type="date" defaultValue={new Date().toISOString().slice(0, 10)} />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-medium">Reason for Return</label>
               <Select>
@@ -448,7 +447,7 @@ const SupplierReturnTab = () => {
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-base font-medium">Return Items</h3>
@@ -457,7 +456,7 @@ const SupplierReturnTab = () => {
                   Add Item
                 </Button>
               </div>
-              
+
               <div className="border rounded-md overflow-hidden">
                 <Table>
                   <TableHeader>
@@ -480,13 +479,13 @@ const SupplierReturnTab = () => {
                 </Table>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-medium">Additional Notes</label>
               <Input placeholder="Any additional information about the return" />
             </div>
           </div>
-          
+
           <div className="flex justify-end space-x-4">
             <Button variant="outline" onClick={() => setShowAddDialog(false)}>Cancel</Button>
             <Button onClick={handleAddReturn}>Create Return</Button>
@@ -503,7 +502,7 @@ const Returns = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Returns Management</h1>
       </div>
-      
+
       <Tabs defaultValue="customer">
         <TabsList>
           <TabsTrigger value="customer">Customer Returns</TabsTrigger>
